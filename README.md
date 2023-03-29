@@ -42,7 +42,4 @@ chmod +x bm-hotspot-cli.sh
  
 ---
 ## Any questions? Need help? Suggestions?
-Feel free to contact me.  My callsign is **WY7EMT**.
-The email address is
-**CALLSIGN** [at] *lltodd.family* or **CALLSIGN** [at] *winlink.org*.  
-Of course, remove the spaces and replace [at] with the @ sign.
+Feel free to log an issue if you run into one.
