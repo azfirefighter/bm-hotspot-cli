@@ -58,7 +58,14 @@ function check_hotspotid {
 }
 
 function showsettings {
-    printf "\n     Hotspot ID: $HOTSPOT\n"
+    printf "\n     Hotspot ID: $HOTSPOT ($CALLSIGN)\n"
+}
+
+function refresh_cache {
+    printf "\n     Caching hotspot information for $HOTSPOT.\n"
+    curl -s $APIURL/$HOTSPOT/talkgroup -H "accept: application/json" > ./bm-cli.json
+    curl -X 'GET' -s "$APIURL/$HOTSPOT" -H 'accept: application/json' > hotspot-info.json
+    CALLSIGN=$(jq '.callsign' 'hotspot-info.json' | sed 's/\"//g')
 }
 
 function menu {
@@ -72,7 +79,9 @@ function menu {
     printf "     [$(tput bold)4$(tput sgr0)] Add Static TG\n"
     printf "     [$(tput bold)5$(tput sgr0)] Drop Static TG\n"
     printf "     [$(tput bold)6$(tput sgr0)] Drop ALL Static TGs NOT WORKING YET\n"
+    printf "     [$(tput bold)7$(tput sgr0)] Show hotspot information\n"
     printf "     [$(tput bold)A$(tput sgr0)] About\n"
+    printf "     [$(tput bold)R$(tput sgr0)] Refresh Cache\n"
     printf "     [$(tput bold)Q$(tput sgr0)] Quit\n"  
     printf "     $(tput bold)---------------------------------------$(tput sgr0)\n\n"
     read -r -sn1 menu_selection
@@ -83,8 +92,10 @@ function menu {
             [4]) add_static_tg;;
             [5]) drop_static_tg;;
             [6]) drop_all_static_tgs;;
+            [7]) show_hotspot;;
             [0]) bunny;;
             [aA]) about;;
+            [rR]) refresh;;
             [qQ]) printf "\n"; rm *.json; exit;;
     esac
 }
@@ -93,7 +104,7 @@ function menu {
 function show_tgs {
      # Confirmed that the code
 	printf "$(tput sgr0)$(tput setaf 3)Inquire current TGs...$(tput sgr0)\n"
-	curl -s $APIURL/$HOTSPOT/talkgroup -H "accept: application/json" > ./bm-cli.json
+	#curl -s $APIURL/$HOTSPOT/talkgroup -H "accept: application/json" > ./bm-cli.json
 
 	printf "$(tput bold)\n    Static TS1: $(tput sgr0)$(tput setaf 6)"
 	jq '.[] | select(.slot=="1").talkgroup' 'bm-cli.json' | tr '\n' ' '
@@ -179,6 +190,9 @@ function add_static_tg {
                else
                     printf "    Error! TG $tg was $(tput bold)NOT$(tput sgr0) added to Timeslot $ts!\n"        
 	          fi
+	printf "\n$(tput setaf 3)    Updating cache...\n\n    "          
+	curl -s $APIURL/$HOTSPOT/talkgroup -H "accept: application/json" > ./bm-cli.json
+	show_tgs
 	menu
 }
 
@@ -202,6 +216,9 @@ function drop_static_tg {
      if [ $? = 0 ];then
           printf "    Talkgroup $tg has been $(tput bold)removed$(tput sgr0) from Timeslot $ts.\n"
           rm output
+          printf "\n$(tput setaf 3)    Updating cache...\n\n    "          
+	     curl -s $APIURL/$HOTSPOT/talkgroup -H "accept: application/json" > ./bm-cli.json
+	     show_tgs
           menu
      else
           printf "$(tput bold)    There was some kind of error and Talkgroup $tg was NOT removed from Timeslot $ts!$(tput sgr0)\n"
@@ -281,9 +298,41 @@ function drop_all_static_tgs {
      rm to-nuke
      rm really-nuke
      rm drop-bm-cli.json
+     printf "\n$(tput setaf 3)    Updating cache...\n\n    "          
+	curl -s $APIURL/$HOTSPOT/talkgroup -H "accept: application/json" > ./bm-cli.json
+	show_tgs
 	menu
 }
 
+function show_hotspot {
+     #curl -X 'GET' -s "$APIURL/$HOTSPOT" -H 'accept: application/json' > hotspot-info.json
+     CALLSIGN=$(jq '.callsign' 'hotspot-info.json' | sed 's/\"//g')
+     HARDWARE=$(jq '.hardware' 'hotspot-info.json' | sed 's/\"//g')
+     TX=$(jq '.tx' 'hotspot-info.json' | sed 's/\"//g')
+     RX=$(jq '.rx' 'hotspot-info.json' | sed 's/\"//g')
+     CC=$(jq '.colorcode' 'hotspot-info.json' | sed 's/\"//g')
+     MASTER=$(jq '.lastKnownMaster' 'hotspot-info.json' | sed 's/\"//g')
+     STATUSTXT=$(jq '.statusText' 'hotspot-info.json' | sed 's/\"//g')
+     LASTSEEN=$(jq '.last_seen' 'hotspot-info.json' | sed 's/\"//g')
+     CREATED=$(jq '.created_at' 'hotspot-info.json' | sed 's/\"//g')
+     UPDATED=$(jq '.updated_at' 'hotspot-info.json' | sed 's/\"//g')
+     
+     printf "$(tput sgr0)$(tput setaf 3)Inquire current hotspot settings...$(tput sgr0)\n"
+     printf "\n     $(tput bold)Hotspot Information for $HOTSPOT ($CALLSIGN).$(tput sgr0)\n"
+     printf "\n     $(tput bold)Last seen at $LASTSEEN.$(tput sgr0)\n"
+     printf "$(tput bold)     -------------------------------------------$(tput sgr0)\n"
+     printf "     $(tput bold)Hardware$(tput sgr0)     [ $HARDWARE ]\n"
+     printf "     $(tput bold)TX Freq$(tput sgr0)      [ $TX ]\n"
+     printf "     $(tput bold)RX Freq$(tput sgr0)      [ $RX ]\n"
+     printf "     $(tput bold)Color Code$(tput sgr0)   [ $CC ]\n"
+     printf "     $(tput bold)Server$(tput sgr0)       [ $MASTER ]\n"
+     printf "     $(tput bold)Status$(tput sgr0)       [ $STATUSTXT ]\n"
+     printf "     $(tput bold)Created On$(tput sgr0)   [ $CREATED ]\n"
+     printf "     $(tput bold)Updated Last$(tput sgr0) [ $UPDATED ]\n"
+     printf "$(tput bold)     --------------------------------------------$(tput sgr0)\n"
+     printf "\n"
+menu
+}
 
 function bunny {
 	printf "\n\n    $(tput setaf 6)APIURL: $APIURL\n    APIKEY: $APIKEY\n\n    HOTSPOT_ID: $HOTSPOT\n\n"
@@ -308,6 +357,6 @@ function about {
 dep_check
 check_apikey
 check_hotspotid
-
+refresh_cache
 
 menu
