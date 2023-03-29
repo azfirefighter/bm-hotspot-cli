@@ -6,7 +6,7 @@
 
 [Original code by cascha42](https://github.com/cascha42/bm-hotspot-cli)
 
-### Modifications to original code
+## Modifications to original code
 - Moved important variable settings out of the main program
 and into a config file.
 - Updated code base to work with the new Brandmeister API version (v2)
@@ -18,13 +18,18 @@ the program uses the cache file.
 - Added option to force cache refresh
 - Added an option to show basic hotspot information.
 
-# Installation
+## Installation
 ```
 git clone https://github.com/azfirefighter/bm-hotspot-cli.git && cd bm-hotspot-cli
 chmod +x bm-hotspot-cli.sh
 ```
-#### Configuration
+## Configuration
 ```
--Add your BM API key to #bm-hotspot-cli.sh#
-##APIKEY=''##
+1. Add your BM API key to bm-hotspot-cli.conf between the single quotes at APIKEY=''
+2. Add your BM hotspot ID to bm-hotspot-cli.conf betwen the single quotes at HOTSPOT=''
 ```
+ 
+ 
+---
+## Any questions? Need help? Suggestions?
+Feel free to contact me by <a href="mailto:wy7emt@lltodd.family" subject="bm-hotspot-cli">Email</a>
