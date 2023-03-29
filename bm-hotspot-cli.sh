@@ -78,7 +78,7 @@ function menu {
     printf "     [$(tput bold)3$(tput sgr0)] Drop ALL Dynamic TGs\n"
     printf "     [$(tput bold)4$(tput sgr0)] Add Static TG\n"
     printf "     [$(tput bold)5$(tput sgr0)] Drop Static TG\n"
-    printf "     [$(tput bold)6$(tput sgr0)] Drop ALL Static TGs NOT WORKING YET\n"
+    printf "     [$(tput bold)6$(tput sgr0)] Drop ALL Static TGs\n"
     printf "     [$(tput bold)7$(tput sgr0)] Show hotspot information\n"
     printf "     [$(tput bold)A$(tput sgr0)] About\n"
     printf "     [$(tput bold)R$(tput sgr0)] Refresh Cache\n"
