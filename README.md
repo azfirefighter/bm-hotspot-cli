@@ -15,4 +15,16 @@ and into a config file.
 - Added caching of TS, TG and hotspot information.  Any changes made to the
 timeslots and talkgroups will trigger a refresh of the information, otherwise
 the program uses the cache file.
+- Added option to force cache refresh
 - Added an option to show basic hotspot information.
+
+# Installation
+```
+git clone https://github.com/azfirefighter/bm-hotspot-cli.git && cd bm-hotspot-cli
+chmod +x bm-hotspot-cli.sh
+```
+#### Configuration
+```
+-Add your BM API key to #bm-hotspot-cli.sh#
+##APIKEY=''##
+```
