@@ -3,17 +3,12 @@
 
 # The BM API had changed after this was orignally created.
 # This is just an attempt to modernize it.
-#
-# Changes:
-# 1) Fixed the select statements for jq so that it works
-# 2) Changed the curl statements so that they match the new API
-# 3) Fixed dropping all of the TG in a timeslot (took some doing)
-# 4) Minor UI changes and usability enhancements
 
 clear
 
 # Config and variables have been broken off into ONE file
-source bm-hotspot-cli.conf
+
+source ~/bm-hotspot-cli.conf
 
 ver="3.1"
 

@@ -1,5 +1,3 @@
-<center>
-
 # bm-hotspot-cli
 
 ## Manage Talkgroups on your Hotspot via Brandmeister-API
@@ -9,8 +7,6 @@
 A BIG thank you to @cascha42 for the initial program! 
 
 [Original code by cascha42](https://github.com/cascha42/bm-hotspot-cli)
-
-</center>
 
 ## Modifications to original code
 - Moved important variable settings out of the main program
