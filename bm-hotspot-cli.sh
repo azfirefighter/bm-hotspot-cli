@@ -8,7 +8,7 @@ clear
 
 # Config and variables have been broken off into ONE file
 
-source ~/bm-hotspot-cli.conf
+source bm-hotspot-cli.conf
 
 ver="3.1"
 

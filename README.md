@@ -26,6 +26,11 @@ the program uses the cache file.
 [ ] Additional menu options (there's a LOT of things you can do with the API)  
 [ ] Merge current code with original code base. 
 
+## Note about commits
+All commits to this repository are now signed.  You can download the public key
+from [HERE](https://wy7emt.lltodd.family/github.html).
+
+
 ## Installation
 ```
 git clone https://github.com/azfirefighter/bm-hotspot-cli.git && cd bm-hotspot-cli
