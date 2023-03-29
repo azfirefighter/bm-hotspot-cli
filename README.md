@@ -21,6 +21,7 @@ timeslots and talkgroups will trigger a refresh of the information, otherwise
 the program uses the cache file.
 - Added option to force cache refresh.
 - Added an option to show basic hotspot information.
+- Added a double confirmation to the "Drop ALL Static TGs" menu option.
 
 ## *POSSBILE* Updates
 [ ] Move to dialog or zenity  
