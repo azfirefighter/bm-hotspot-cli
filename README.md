@@ -6,6 +6,8 @@
 
 ![Screenshot](Screenshot.png)
 
+A BIG thank you to @cascha42 for the initial program! 
+
 [Original code by cascha42](https://github.com/cascha42/bm-hotspot-cli)
 
 </center>
